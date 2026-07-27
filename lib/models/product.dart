@@ -17,8 +17,6 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      // dummyjson's id is an int — store as String so it works as a Map/Set
-      // key and a Hero tag without extra casting elsewhere in the app.
       id: json['id'].toString(),
       name: json['title'] as String,
       price: (json['price'] as num).toDouble(),
