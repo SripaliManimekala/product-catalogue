@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:product_catalogue/presentation/product_list_screen.dart';
 import 'package:product_catalogue/provider/product_provider.dart';
 import 'package:product_catalogue/repository/product_repository.dart';
+import 'package:product_catalogue/routing/app_router.dart';
 import 'package:product_catalogue/utils/app_theme.dart';
 import 'package:product_catalogue/utils/theme_provider.dart';
 
@@ -22,12 +22,12 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
-          return MaterialApp(
+          return MaterialApp.router(
             title: 'Product Catalogue',
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: themeProvider.themeMode,
-            home: const ProductsListScreen(),
+            routerConfig: appRouter,
           );
         },
       ),

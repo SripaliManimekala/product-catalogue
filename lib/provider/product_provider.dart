@@ -16,6 +16,13 @@ class ProductProvider extends ChangeNotifier {
 
   ProductProvider(this._repository);
 
+  Product? getById(String id) {
+    for (final product in _products) {
+      if (product.id == id) return product;
+    }
+    return null;
+  }
+
   Future<void> fetchProducts() async {
     _isLoading = true;
     _error = null;
