@@ -13,12 +13,12 @@ class ProductRepository {
       final res = await http.get(Uri.parse('$_baseUrl/products'));
       final body = jsonDecode(res.body) as Map<String, dynamic>;
       if (res.statusCode != 200) {
-        throw Exception(body['message'] ?? 'Validation failed');
+        throw body['message'] ?? 'Validation failed';
       }
       final List<dynamic> productsJson = body['products'] as List<dynamic>;
       return productsJson.map((item) => Product.fromJson(item as Map<String, dynamic>)).toList();
     } catch (e) {
-      throw Exception('Failed to fetch products: $e');
+      throw 'Failed to fetch products';
     }
   }
 
