@@ -18,7 +18,11 @@ class ProductImage extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Container(
+          decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
+
+            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+          ),
           child: AspectRatio(
             aspectRatio: 1,
             child: Image.network(

@@ -19,36 +19,48 @@ class ProductDetailsScreen extends StatelessWidget {
       appBar: AppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Center(
-                child: Column(
-                  children: [
-                    Text(
-                      product!.name,
-                      style: const TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Center(
+                  child: Column(
+            
+                    children: [
+                      Text(
+                        product!.name,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-
-                    ProductImage(
-                      imagePath: product.imageUrl,
-                      isFavorite: favorites.isFavorite(product.id),
-                      onFavoriteToggle:
-                          () => context.read<FavoritesProvider>().toggle(
-                            product.id,
-                          ),
-                    ),
-                    const SizedBox(height: 20),
-
-                    Text(product.description),
-                    Text('\$${product.price.toStringAsFixed(2)}'),
-                  ],
+            
+                      ProductImage(
+                        imagePath: product.imageUrl,
+                        isFavorite: favorites.isFavorite(product.id),
+                        onFavoriteToggle:
+                            () => context.read<FavoritesProvider>().toggle(
+                              product.id,
+                            ),
+                      ),
+                      const SizedBox(height: 20),
+                   Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                       Text('\$${product.price.toStringAsFixed(2)}', style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 20, fontWeight: FontWeight.bold, ),),
+                                 
+                        Text(product.description,textAlign: TextAlign.justify,),
+                     ],),
+                   )
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

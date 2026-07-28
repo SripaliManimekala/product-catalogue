@@ -36,9 +36,15 @@ class ProductCard extends StatelessWidget {
                   
                   Text(
                     product.name,
-                    maxLines: 3,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    product.category,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryFixed)
                   ),
                 ],
               ),
