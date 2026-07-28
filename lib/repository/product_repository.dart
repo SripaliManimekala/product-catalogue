@@ -10,7 +10,21 @@ class ProductRepository {
 
   Future<List<Product>> getProducts() async {
     try {
-      final res = await http.get(Uri.parse('$_baseUrl/products'));
+      final res = await http.get(Uri.parse('$_baseUrl/products?delay=1000'));
+      final body = jsonDecode(res.body) as Map<String, dynamic>;
+      if (res.statusCode != 200) {
+        throw body['message'] ?? 'Validation failed';
+      }
+      final List<dynamic> productsJson = body['products'] as List<dynamic>;
+      return productsJson.map((item) => Product.fromJson(item as Map<String, dynamic>)).toList();
+    } catch (e) {
+      throw 'Failed to fetch products';
+    }
+  }
+
+   Future<List<Product>> searchProducts(String query) async {
+    try {
+      final res = await http.get(Uri.parse('$_baseUrl/products/search?q=$query'));
       final body = jsonDecode(res.body) as Map<String, dynamic>;
       if (res.statusCode != 200) {
         throw body['message'] ?? 'Validation failed';
