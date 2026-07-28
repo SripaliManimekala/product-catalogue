@@ -37,4 +37,24 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> searchProducts(String query) async {
+    print('Searching for products with query: $query');
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      if(query.isEmpty) {
+        _products = await _repository.getProducts();
+      } else {
+        _products = await _repository.searchProducts(query);
+      }
+    } catch (e) {
+      _error = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }

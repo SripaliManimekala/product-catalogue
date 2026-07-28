@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:product_catalogue/provider/favorites_provider.dart';
 import 'package:product_catalogue/provider/product_provider.dart';
 import 'package:product_catalogue/repository/product_repository.dart';
 import 'package:product_catalogue/routing/app_router.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => ProductProvider(ProductRepository())),
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => FavoritesProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
