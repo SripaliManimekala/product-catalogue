@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:product_catalogue/presentation/favourites_screen.dart';
 import 'package:product_catalogue/presentation/product_details_screen.dart';
 import 'package:product_catalogue/presentation/product_list_screen.dart';
 
@@ -12,6 +13,10 @@ final GoRouter appRouter = GoRouter(
       path: '/product/:id',
       builder: (context, state) =>
           ProductDetailsScreen(id: state.pathParameters['id']!),
+    ),
+    GoRoute(
+      path: '/favourites',
+      builder: (context, state) => const FavouritesScreen(),
     ),
   ],
 );

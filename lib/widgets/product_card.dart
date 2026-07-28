@@ -55,3 +55,46 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
+
+
+class ProductCard2 extends StatelessWidget {
+  final Product product;
+  final VoidCallback? onTap;
+
+  const ProductCard2({super.key, required this.product, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final favorites = context.watch<FavoritesProvider>();
+
+    return InkWell(
+      onTap: onTap,
+      child: ListTile(
+        leading: ProductImage(
+          imagePath: product.imageUrl,
+          isFavorite: favorites.isFavorite(product.id),
+          onFavoriteToggle: () =>
+              context.read<FavoritesProvider>().toggle(product.id),
+        ),
+        title: Text(
+          product.name,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('\$${product.price.toStringAsFixed(2)}', style: TextStyle(color: Theme.of(context).colorScheme.primary),),
+            Text(
+              product.category,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryFixed)
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
