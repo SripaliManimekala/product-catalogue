@@ -126,6 +126,21 @@ responses into `Product` models.
 - Cache network images (e.g. `cached_network_image`) instead of plain
   `Image.network`, for performance and offline resilience
 - Sort/filter products by category or price
+- Since this is a product catalogue, add-to-cart, checkout, and payment
+  integration would be the natural next step to make it a fully functional
+  shopping app
+- A few UI pieces are duplicated instead of extracted into shared widgets —
+  e.g. the category chip and price text markup is repeated near-identically
+  across `ProductCard`, `ProductCard2`, and the product details screen.
+  Noticed this during development but didn't refactor it out due to time
+  constraints
+
+## Demo Video
+
+<video src="demo/app-walkthrough.mp4" controls width="360"></video>
+
+If the player above doesn't load in your viewer,
+[watch/download it directly](demo/app-walkthrough.mp4).
 
 ## Screenshots
 
