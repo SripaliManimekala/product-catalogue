@@ -18,7 +18,7 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
     final favorites = context.watch<FavoritesProvider>();
     final products = context
         .watch<ProductProvider>()
-        .products
+        .allProducts
         .where((product) => favorites.isFavorite(product.id))
         .toList();
 
