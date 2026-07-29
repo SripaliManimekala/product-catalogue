@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:product_catalogue/widgets/error_view.dart';
+import 'package:product_catalogue/widgets/loader.dart';
 import 'package:product_catalogue/widgets/product_card.dart';
 import 'package:product_catalogue/widgets/search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:product_catalogue/provider/product_provider.dart';
-import 'package:product_catalogue/utils/theme_provider.dart';
+import 'package:product_catalogue/provider/theme_provider.dart';
 
 class ProductsListScreen extends StatefulWidget {
   const ProductsListScreen({super.key});
@@ -29,6 +31,9 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
         title: const Text('Products'),
         actions: [
           IconButton(
+            tooltip: Theme.of(context).brightness == Brightness.dark
+                ? 'Switch to light theme'
+                : 'Switch to dark theme',
             icon: Icon(
               Theme.of(context).brightness == Brightness.dark
                   ? Icons.light_mode
@@ -63,11 +68,15 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
                 child: Consumer<ProductProvider>(
                   builder: (context, provider, child) {
                     if (provider.isLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return const LoadingView();
                     }
           
                     if (provider.error != null) {
-                      return Center(child: Text(provider.error!));
+                      return ErrorView(
+                        message: provider.error!,
+                        onRetry: () =>
+                            context.read<ProductProvider>().fetchProducts(),
+                      );
                     }
           
                     if (provider.products.isEmpty) {
@@ -79,7 +88,7 @@ class _ProductsListScreenState extends State<ProductsListScreen> {
                       child: GridView.builder(
                         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          childAspectRatio: 0.62,
+                          childAspectRatio: 0.65,
                         ),
                         itemCount: provider.products.length,
                         itemBuilder: (context, index) {
