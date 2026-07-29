@@ -5,7 +5,7 @@ import 'package:product_catalogue/provider/product_provider.dart';
 import 'package:product_catalogue/repository/product_repository.dart';
 import 'package:product_catalogue/routing/app_router.dart';
 import 'package:product_catalogue/utils/app_theme.dart';
-import 'package:product_catalogue/utils/theme_provider.dart';
+import 'package:product_catalogue/provider/theme_provider.dart';
 
 void main() {
   runApp(const MyApp());
