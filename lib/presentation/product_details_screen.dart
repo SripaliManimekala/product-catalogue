@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import 'package:product_catalogue/provider/favorites_provider.dart';
 import 'package:product_catalogue/provider/product_provider.dart';
+import 'package:product_catalogue/widgets/network_image_error.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   final String id;
@@ -37,14 +38,8 @@ class ProductDetailsScreen extends StatelessWidget {
                 child: Image.network(
                   product.imageUrl,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    child: Icon(
-                      Icons.image_not_supported_outlined,
-                      size: 48,
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
+                  errorBuilder: (context, error, stackTrace) =>
+                      const NetworkImageError(),
                   loadingBuilder: (context, child, progress) {
                     if (progress == null) return child;
                     return Container(

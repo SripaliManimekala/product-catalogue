@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:product_catalogue/models/product.dart';
 import 'package:product_catalogue/provider/favorites_provider.dart';
+import 'package:product_catalogue/widgets/network_image_error.dart';
 import 'package:product_catalogue/widgets/product_image.dart';
 import 'package:provider/provider.dart';
 
@@ -26,12 +27,17 @@ class ProductCard extends StatelessWidget {
               child: ProductImage(
                 imagePath: product.imageUrl,
                 isFavorite: favorites.isFavorite(product.id),
-                onFavoriteToggle: () =>
-                    context.read<FavoritesProvider>().toggle(product.id),
+                onFavoriteToggle:
+                    () => context.read<FavoritesProvider>().toggle(product.id),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 4, right: 4, top: 24, bottom: 6),
+              padding: const EdgeInsets.only(
+                left: 4,
+                right: 4,
+                top: 24,
+                bottom: 6,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -42,7 +48,7 @@ class ProductCard extends StatelessWidget {
                     children: [
                       Text(
                         '\$${product.price.toStringAsFixed(2)}',
-                         style: theme.textTheme.bodyMedium?.copyWith(
+                        style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.primary,
                         ),
@@ -58,22 +64,21 @@ class ProductCard extends StatelessWidget {
                         ),
                         child: Text(
                           product.category,
-                        style: theme.textTheme.labelSmall?.copyWith(
-                              color: theme.colorScheme.onSecondaryContainer,
-                              fontWeight: FontWeight.w500,
-                            ),
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: theme.colorScheme.onSecondaryContainer,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ],
                   ),
-                  
+
                   Text(
                     product.name,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                 
                 ],
               ),
             ),
@@ -83,7 +88,6 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
-
 
 class ProductCard2 extends StatelessWidget {
   final Product product;
@@ -107,11 +111,10 @@ class ProductCard2 extends StatelessWidget {
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
             child: Image.network(
               product.imageUrl,
+
               fit: BoxFit.cover,
-             errorBuilder: (context, error, stackTrace) => Container(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                child: const Icon(Icons.broken_image),
-              ),
+              errorBuilder:
+                  (context, error, stackTrace) => const NetworkImageError(),
             ),
           ),
         ),
@@ -122,36 +125,33 @@ class ProductCard2 extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         subtitle: Wrap(
-                    spacing: 10,
-                    runSpacing: 10,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      Text(
-                        '\$${product.price.toStringAsFixed(2)}',
-                         style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.primary,
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.secondaryContainer,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          product.category,
-                        style: theme.textTheme.labelSmall?.copyWith(
-                              color: theme.colorScheme.onSecondaryContainer,
-                              fontWeight: FontWeight.w500,
-                            ),
-                        ),
-                      ),
-                    ],
-                  ),
+          spacing: 10,
+          runSpacing: 10,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text(
+              '\$${product.price.toStringAsFixed(2)}',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.secondaryContainer,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                product.category,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSecondaryContainer,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
         trailing: IconButton(
           icon: Icon(
             favorites.isFavorite(product.id)
@@ -159,8 +159,7 @@ class ProductCard2 extends StatelessWidget {
                 : Icons.favorite_border,
             color: theme.colorScheme.primary,
           ),
-          onPressed: () =>
-              context.read<FavoritesProvider>().toggle(product.id),
+          onPressed: () => context.read<FavoritesProvider>().toggle(product.id),
         ),
       ),
     );
