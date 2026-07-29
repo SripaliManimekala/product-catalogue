@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:product_catalogue/widgets/network_image_error.dart';
 
 class ProductImage extends StatelessWidget {
   const ProductImage({
@@ -17,18 +18,15 @@ class ProductImage extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Container(
-          decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-          ),
-          child: AspectRatio(
-            aspectRatio: 1,
+        Positioned.fill(
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            ),
             child: Image.network(
-              errorBuilder: (context, error, stackTrace) {
-                return const Center(child: Icon(Icons.broken_image));
-              },
+              errorBuilder:
+                  (context, error, stackTrace) => const NetworkImageError(),
               imagePath,
               fit: BoxFit.cover,
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:product_catalogue/models/product.dart';
 import 'package:product_catalogue/provider/favorites_provider.dart';
+import 'package:product_catalogue/widgets/network_image_error.dart';
 import 'package:product_catalogue/widgets/product_image.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final favorites = context.watch<FavoritesProvider>();
+    final theme = Theme.of(context);
 
     return InkWell(
       onTap: onTap,
@@ -21,30 +23,61 @@ class ProductCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ProductImage(
-              imagePath: product.imageUrl,
-              isFavorite: favorites.isFavorite(product.id),
-              onFavoriteToggle: () =>
-                  context.read<FavoritesProvider>().toggle(product.id),
+            Expanded(
+              child: ProductImage(
+                imagePath: product.imageUrl,
+                isFavorite: favorites.isFavorite(product.id),
+                onFavoriteToggle:
+                    () => context.read<FavoritesProvider>().toggle(product.id),
+              ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 4, right: 4, top: 24, bottom: 6),
+              padding: const EdgeInsets.only(
+                left: 4,
+                right: 4,
+                top: 24,
+                bottom: 6,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('\$${product.price.toStringAsFixed(2)}', style: TextStyle(color: Theme.of(context).colorScheme.primary),),
-                  
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text(
+                        '\$${product.price.toStringAsFixed(2)}',
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.primary,
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.secondaryContainer,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          product.category,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: theme.colorScheme.onSecondaryContainer,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+
                   Text(
                     product.name,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  Text(
-                    product.category,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryFixed)
                   ),
                 ],
               ),
@@ -56,7 +89,6 @@ class ProductCard extends StatelessWidget {
   }
 }
 
-
 class ProductCard2 extends StatelessWidget {
   final Product product;
   final VoidCallback? onTap;
@@ -66,15 +98,25 @@ class ProductCard2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final favorites = context.watch<FavoritesProvider>();
+    final theme = Theme.of(context);
 
     return InkWell(
       onTap: onTap,
       child: ListTile(
-        leading: ProductImage(
-          imagePath: product.imageUrl,
-          isFavorite: favorites.isFavorite(product.id),
-          onFavoriteToggle: () =>
-              context.read<FavoritesProvider>().toggle(product.id),
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Container(
+            width: 56,
+            height: 56,
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            child: Image.network(
+              product.imageUrl,
+
+              fit: BoxFit.cover,
+              errorBuilder:
+                  (context, error, stackTrace) => const NetworkImageError(),
+            ),
+          ),
         ),
         title: Text(
           product.name,
@@ -82,17 +124,42 @@ class ProductCard2 extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontWeight: FontWeight.bold),
         ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        subtitle: Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Text('\$${product.price.toStringAsFixed(2)}', style: TextStyle(color: Theme.of(context).colorScheme.primary),),
             Text(
-              product.category,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: Theme.of(context).colorScheme.onSecondaryFixed)
+              '\$${product.price.toStringAsFixed(2)}',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.secondaryContainer,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Text(
+                product.category,
+                style: theme.textTheme.labelSmall?.copyWith(
+                  color: theme.colorScheme.onSecondaryContainer,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           ],
+        ),
+        trailing: IconButton(
+          icon: Icon(
+            favorites.isFavorite(product.id)
+                ? Icons.favorite
+                : Icons.favorite_border,
+            color: theme.colorScheme.primary,
+          ),
+          onPressed: () => context.read<FavoritesProvider>().toggle(product.id),
         ),
       ),
     );
